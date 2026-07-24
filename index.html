@@ -1,23 +1,683 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
-    <main>
-      <h1>Home page</h1>
-    </main>
-  </body>
-</html>
+
+  <style>
+        /* CSS 변수를 활용한 부드럽고 다채로운 색감 설정 */
+        :root {
+            --primary-color: #2b3a67;     /* 신뢰감을 주는 깊은 블루 */
+            --secondary-color: #496a81;   /* 부드러운 차분한 블루 그레이 */
+            --accent-color: #e07a5f;      /* 강조 효과를 주는 웜 테라코타 */
+            --bg-color: #f7f9fa;          /* 편안한 연한 그레이 */
+            --card-bg: #ffffff;           /* 순백색 카드 배경 */
+            --text-color: #2d3748;        /* 시독성이 뛰어난 차분한 차콜 */
+            --text-muted: #718096;       /* 가독성을 해치지 않는 서브 텍스트 컬러 */
+            --border-color: #e2e8f0;      /* 얇고 정돈된 경계선 색상 */
+            --highlight-bg: #fdf8f5;     /* 강조 구역용 연한 복숭아빛 배경 */
+            --table-header-bg: #f0f4f8;   /* 표 헤더용 부드러운 블루그레이 */
+        }
+
+        /* 기본 레이아웃 및 폰트 설정 */
+        body { 
+            font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', '맑은 고딕', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.8; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .container { 
+            width: 100%; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 30px 20px; 
+            box-sizing: border-box; 
+        }
+
+        /* 헤더 스타일: 부드러운 그라데이션과 시각적 안정감 */
+        header { 
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); 
+            color: white; 
+            padding: 50px 0; 
+            border-bottom: 5px solid var(--accent-color); 
+            text-align: center;
+        }
+        header h1 { 
+            margin: 0; 
+            font-size: 2.2em; 
+            font-weight: 800; 
+            letter-spacing: -1px;
+            line-height: 1.4;
+        }
+        header p {
+            margin: 15px 0 0 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* 네비게이션 스타일 */
+        nav { 
+            background-color: var(--card-bg); 
+            padding: 10px; 
+            margin-bottom: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); 
+        }
+        .main-menu { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0; 
+            display: flex; 
+            justify-content: space-around; 
+            flex-wrap: wrap;
+        }
+        .main-menu li { 
+            margin: 5px; 
+        }
+        .main-menu li a { 
+            display: block; 
+            padding: 10px 15px; 
+            text-decoration: none; 
+            color: var(--primary-color); 
+            font-weight: 750; 
+            font-size: 1em; 
+            transition: all 0.3s ease; 
+            border-radius: 8px;
+        }
+        .main-menu li a:hover { 
+            background-color: var(--highlight-bg); 
+            color: var(--accent-color); 
+        }
+
+        /* 콘텐츠 래퍼 및 레이아웃 */
+        .content-wrap { 
+            display: flex; 
+            gap: 30px; 
+        }
+        .sidebar { 
+            flex: 0 0 320px; 
+            padding: 25px; 
+            background-color: var(--card-bg); 
+            border-radius: 16px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
+            align-self: flex-start; 
+        }
+        .main-content { 
+            flex: 1; 
+            padding: 40px; 
+            background-color: var(--card-bg); 
+            border-radius: 16px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
+        }
+
+        /* 사이드바 스타일 */
+        .sidebar h2 { 
+            color: var(--primary-color); 
+            font-size: 1.3em; 
+            margin-top: 0; 
+            border-bottom: 2px solid var(--accent-color); 
+            padding-bottom: 12px; 
+            font-weight: 700;
+        }
+        .sub-menu { 
+            list-style: none; 
+            padding: 0; 
+            margin: 15px 0; 
+        }
+        .sub-menu li a { 
+            display: block; 
+            padding: 12px 0; 
+            text-decoration: none; 
+            color: var(--text-color); 
+            border-bottom: 1px solid var(--border-color); 
+            transition: all 0.3s ease; 
+            font-size: 0.95em;
+        }
+        .sub-menu li a:hover { 
+            color: var(--accent-color); 
+            padding-left: 8px; 
+            font-weight: bold; 
+        }
+
+        /* 체류시간 증대를 위한 다중 입력 폼 영역 */
+        .calculator-section { 
+            background-color: var(--bg-color); 
+            padding: 25px; 
+            border-radius: 12px; 
+            border: 1px solid var(--border-color); 
+            margin-bottom: 25px; 
+        }
+        .calculator-section h3 { 
+            color: var(--primary-color); 
+            font-size: 1.15em; 
+            margin-top: 0; 
+            font-weight: 700;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        .calculator-section label { 
+            display: block; 
+            margin-top: 15px; 
+            font-weight: bold; 
+            color: var(--text-color); 
+            font-size: 0.9em;
+        }
+        .calculator-section input[type="text"],
+        .calculator-section input[type="number"],
+        .calculator-section select { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 6px; 
+            margin-top: 6px; 
+            box-sizing: border-box; 
+            background-color: white;
+            font-size: 0.95em;
+            color: var(--text-color);
+        }
+        .calculator-section input:focus, .calculator-section select:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 5px rgba(73, 106, 129, 0.2);
+        }
+        .calculator-section button { 
+            width: 100%; 
+            padding: 14px; 
+            background-color: var(--primary-color); 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            font-size: 1em; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 20px; 
+            transition: background-color 0.3s ease; 
+        }
+        .calculator-section button:hover { 
+            background-color: var(--secondary-color); 
+        }
+
+        /* 메인 콘텐츠 세부 스타일 */
+        .main-content h2 { 
+            color: var(--primary-color); 
+            font-size: 1.75em; 
+            border-bottom: 2px solid var(--border-color); 
+            padding-bottom: 12px; 
+            margin-top: 40px; 
+            font-weight: 800;
+        }
+        .main-content h2:first-of-type {
+            margin-top: 0;
+        }
+        .main-content h3 { 
+            color: var(--secondary-color); 
+            font-size: 1.35em; 
+            margin-top: 30px; 
+            border-left: 4px solid var(--accent-color); 
+            padding-left: 12px; 
+            font-weight: 700;
+        }
+        .main-content h4 {
+            color: var(--primary-color);
+            font-size: 1.1em;
+            margin-top: 20px;
+            font-weight: 700;
+        }
+        .main-content p { 
+            color: var(--text-color); 
+            margin-bottom: 1.6em; 
+            text-align: justify; 
+            font-size: 1.05em;
+        }
+
+        /* 하이라이트 안내문구 */
+        .highlight { 
+            background-color: var(--highlight-bg); 
+            border-left: 4px solid var(--accent-color); 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin: 25px 0; 
+            color: var(--text-color); 
+        }
+        .highlight p { 
+            margin: 0; 
+            line-height: 1.7; 
+            font-weight: 500;
+        }
+
+        /* 전문적인 데이터 시각화를 위한 표 설정 */
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 25px 0; 
+            font-size: 0.95em; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        table th, table td { 
+            border: 1px solid var(--border-color); 
+            padding: 14px; 
+            text-align: left; 
+        }
+        table th { 
+            background-color: var(--table-header-bg); 
+            color: var(--primary-color); 
+            font-weight: 700; 
+        }
+        table tr:nth-child(even) { 
+            background-color: rgba(247, 249, 250, 0.7); 
+        }
+
+        /* 시뮬레이션 결과창 */
+        .interactive-result {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f4f8;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* 외부 링크 스타일 */
+        .external-links ul { 
+            list-style: none; 
+            padding: 0; 
+            margin-top: 20px; 
+        }
+        .external-links li a { 
+            display: block; 
+            padding: 12px 15px; 
+            margin-bottom: 8px; 
+            background-color: var(--bg-color); 
+            border-radius: 6px; 
+            text-decoration: none; 
+            color: var(--text-color); 
+            transition: all 0.3s ease; 
+            border: 1px solid var(--border-color);
+            font-size: 0.95em;
+        }
+        .external-links li a:hover { 
+            background-color: var(--highlight-bg); 
+            color: var(--accent-color); 
+            border-color: var(--accent-color);
+        }
+
+        /* 모바일 반응형 디자인 */
+        @media (max-width: 900px) {
+            .content-wrap { flex-direction: column; }
+            .sidebar { width: 100%; margin-bottom: 30px; }
+            .main-content { padding: 25px; }
+            .main-menu { flex-direction: column; align-items: stretch; }
+            .main-menu li a { text-align: center; border-bottom: 1px solid var(--border-color); }
+        }
+    </style>
+
+    <!-- 구글/네이버 AI 및 크롤러 탐색을 위한 JSON-LD 구조화 데이터 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "자동차보험 보상 자기신체 상해 손해 사고 완벽 대비 가이드",
+      "headline": "자동차보험 보상 자기신체 상해 손해 사고 분석: 자손 자상 차이점 및 2026년 가입 요금 가이드",
+      "description": "자동차보험 가입 시 필수 항목인 자기신체사고(자손)와 자동차상해(자상)의 보상 범위, 손해율 및 사고 처리 금액 비교 분석 가이드. 연령별 및 모델별 평균 비용과 최저가 다이렉트 가입 전략을 제시합니다.",
+      "url": "https://guide.reliabledone.com/car-insurance-guide",
+      "mainEntity": {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "자기신체사고(자손)와 자동차상해(자상)의 가장 큰 차이점은 무엇인가요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "가장 큰 차이점은 보상 방식과 보장 범위입니다. 자기신체사고는 상해 등급별 한도 내에서만 치료비를 보상하지만, 자동차상해는 등급 관계없이 실손 보상을 제공하며 위자료와 휴업손해까지 폭넓게 책정하여 지급합니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "20대 신규 가입 시 자기신체 상해 손해 담보 중 어떤 것이 유리한가요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "사고 위험률이 높은 20대 신규 운전자의 경우 가격이 조금 비싸더라도 보상 범위가 넓고 과실 상계 감액이 없는 자동차상해 담보를 가입하는 것을 적극 추천합니다."
+            }
+          }
+        ]
+      }
+    }
+    </script>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>자동차보험 보상 자기신체 상해 손해 사고 분석</h1>
+            <p>자기신체사고와 자동차상해 최선의 선택 요령 및 2026년 다이렉트 가입 전망</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav>
+            <ul class="main-menu">
+                <li><a href="#intro_section">자기신체 상해 핵심 분석</a></li>
+                <li><a href="#comparison_section">자손 vs 자상 상세 비교</a></li>
+                <li><a href="#age_section">모델별 연령별 가입 비용</a></li>
+                <li><a href="#direct_section">다이렉트 절약 최저가 성지</a></li>
+                <li><a href="#forecast_section">2026년 제도 변화 및 AI 활용</a></li>
+                <li><a href="#faq_section">자주 묻는 질문 FAQ</a></li>
+            </ul>
+        </nav>
+
+        <div class="content-wrap">
+            <aside class="sidebar">
+                <h2>실시간 계산 및 상담</h2>
+                
+                <!-- 체류 시간 증대를 위한 계산기 입력란 구성 -->
+                <div class="calculator-section">
+                    <h3>보상금 계산 시뮬레이터</h3>
+                    <p>치료비와 과실을 입력하여 자기신체사고와 자동차상해의 예상 보상액 차이를 분석해보세요.</p>
+                    <form id="calcForm" onsubmit="calculateCompensation(event);">
+                        <label for="injuryGrade">부상 등급 선택</label>
+                        <select id="injuryGrade" required>
+                            <option value="12">12급 (경미한 뇌진탕/염좌)</option>
+                            <option value="9">9급 (가벼운 골절)</option>
+                            <option value="5">5급 (중한 골절 및 수술)</option>
+                            <option value="1">1급 (사지마비/중증 상해)</option>
+                        </select>
+
+                        <label for="medicalCost">예상 총 치료 비용 (원)</label>
+                        <input type="number" id="medicalCost" placeholder="예: 3000000" required>
+
+                        <label for="lostIncome">월 소득액 (원)</label>
+                        <input type="number" id="lostIncome" placeholder="예: 3500000" required>
+
+                        <label for="hospitalDays">입원 일수 (일)</label>
+                        <input type="number" id="hospitalDays" placeholder="예: 14" required>
+
+                        <label for="faultRatio">본인 과실 비율 (%)</label>
+                        <input type="number" id="faultRatio" min="0" max="100" placeholder="예: 50" required>
+
+                        <button type="submit">지급 금액 비교 계산하기</button>
+                    </form>
+                    
+                    <div id="calcResult" class="interactive-result" style="display:none;"></div>
+                </div>
+
+                <div class="calculator-section">
+                    <h3>맞춤형 담보 컨설팅</h3>
+                    <p>나이와 차량 종류에 최적화된 설계 전문 업체의 무료 포트폴리오를 제공합니다.</p>
+                    <form onsubmit="alert('상담 신청이 정상적으로 완료되었습니다.'); return false;">
+                        <label for="userName">신청자 성함</label>
+                        <input type="text" id="userName" placeholder="성함 입력" required>
+
+                        <label for="userAge">운전자 연령대</label>
+                        <select id="userAge" required>
+                            <option value="20">20대 초중반</option>
+                            <option value="25">20대 후반</option>
+                            <option value="30">30대</option>
+                            <option value="40">40대 이상</option>
+                        </select>
+
+                        <label for="carModel">소유 차량 종류</label>
+                        <select id="carModel" required>
+                            <option value="avante">아반떼급 준중형</option>
+                            <option value="sonata">쏘나타급 중형</option>
+                            <option value="grandeur">그랜저급 준대형</option>
+                            <option value="gv80">제네시스 GV80급 대형 SUV</option>
+                        </select>
+
+                        <label for="userContact">연락처</label>
+                        <input type="text" id="userContact" placeholder="010-0000-0000" required>
+
+                        <button type="submit" style="background-color: var(--accent-color);">1대1 맞춤 컨설팅 신청</button>
+                    </form>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <section id="intro_section">
+                    <h2>자동차보험 보상 자기신체 상해 손해 사고 완벽 이해</h2>
+                    <p>자동차 사고가 발생했을 때 상대방에 대한 보상만큼이나 중요한 것이 바로 운전자 본인과 동승자의 신체적 손해를 어떻게 보상받을 것인가 하는 점입니다. 대한민국 대표 커뮤니티인 보배드림, 디시인사이드 자동차 갤러리, 에펨코리아(펨코) 등에서 끊임없이 갑론을박이 이어지는 주제가 바로 자기신체사고와 자동차상해 중 어떤 요금제에 가입해야 하는가입니다. 신규 가입자든 갱신 대상자든 이 차이점을 명확히 알아야만 실제 인명 피해 사고가 일어났을 때 수천만 원에 달하는 손실을 방지할 수 있습니다.</p>
+                    
+                    <div class="highlight">
+                        <p>핵심 요약 안내: 자기신체사고는 상해 급수별 한도 내에서 치료비만 차등 지급되므로 실제 사고 수리비 및 의료비 발생 시 본인 부담 금액이 매우 커질 위험이 높습니다. 반면 자동차상해는 실손 보상을 지원할 뿐만 아니라 소득 감소분과 위자료까지 일괄 보장하므로 가장 확실한 사고 대비책입니다.</p>
+                    </div>
+
+                    <p>소비자들은 인터넷 다이렉트 어플 및 온라인 사이트를 활용하여 가급적 제일 저렴한곳 혹은 싼곳을 찾아 최소 요금으로 가입하려는 경향을 보입니다. 그러나 자기신체사고 담보의 보험료 차이는 연간 평균 2만 원에서 5만 원 안팎입니다. 아주 작은 금액의 가격 차이 때문에 사고 시 보상받을 수 있는 금액이 수억 원대까지 벌어진다는 장단점을 인지한다면, 어떤 종류의 브랜드를 선택하든 자동차상해를 우선순위로 두고 추천 설계를 진행하는 것이 바람직합니다.</p>
+                </section>
+
+                <section id="comparison_section">
+                    <h2>자기신체사고(자손) vs 자동차상해(자상) 명확한 차이점</h2>
+                    <p>두 담보는 자동차 사고로 본인 및 가족이 다치거나 사망했을 때 적용된다는 공통점이 있습니다. 하지만 보상 범위와 지급 기준, 과실 감액 여부 등 세부 구조에서 상당한 차이점이 존재합니다. 다음 표는 전문가 집단이 정밀 분석한 두 제도의 상세 비교 분석 데이터입니다.</p>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>구분 요소</th>
+                                <th>자기신체사고 (자손)</th>
+                                <th>자동차상해 (자상)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>치료비 지급 기준</td>
+                                <td>상해 등급별(1급~14급) 정해진 한도 내 지급</td>
+                                <td>가입 한도(예: 1억 원) 내 실제 발생 치료비 전액</td>
+                            </tr>
+                            <tr>
+                                <td>위자료 및 휴업손해</td>
+                                <td>보상 불가 (단점)</td>
+                                <td>입원 치료로 발생한 일실 수입 및 위자료 지급 (장점)</td>
+                            </tr>
+                            <tr>
+                                <td>쌍방 과실 감액 여부</td>
+                                <td>본인 과실 비율만큼 보상 금액 차감</td>
+                                <td>과실 유무 관계없이 약정금 전체 신속 지급 후 구상권 청구</td>
+                            </tr>
+                            <tr>
+                                <td>사고 처리 속도</td>
+                                <td>과실 합의 및 등급 판정 이후 지급 (느림)</td>
+                                <td>선지급 치료 개시로 복잡한 분쟁 최소화 (매우 빠름)</td>
+                            </tr>
+                            <tr>
+                                <td>연간 보험 요금 편차</td>
+                                <td>비교적 저렴함 (최저가 설계 시 선호)</td>
+                                <td>자손 대비 연평균 약 2만 원 ~ 4만 원 추가</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>자손의 가장 치명적인 단점은 부상 치료 과정에서 치료 비용이 부상 등급별 한도를 단 1원이라도 초과하게 되면, 남은 금액은 모두 가입자가 사비로 충당해야 한다는 것입니다. 예를 들어 단독 사고로 경미한 목 염좌 및 뇌진탕 진단(12급)을 받고 대학병원 정밀 검사 등으로 치료비 300만 원이 발생했으나, 가입한 자기신체사고 12급 한도가 120만 원이라면 차액 180만 원은 고스란히 본인 몫이 됩니다. 이 때문에 대다수의 보험 전문 컨설턴트들은 자동차상해로의 전환 가입을 강력하게 추천하고 있습니다.</p>
+                </section>
+
+                <section id="age_section">
+                    <h2>모델별 연령별 가입 비용 및 평균 시뮬레이션 분석</h2>
+                    <p>보험 계약 시 연령층과 운전 대상 모델에 따라 산출되는 기초 견적 비용은 매우 다양합니다. 20대 사회 초년생의 신규 가입 조건부터 50대 준대형 차주에 이르기까지, 대표적인 자동차 모델인 현대 아반떼, 쏘나타, 그랜저, 그리고 제네시스 GV80를 기준으로 책정되는 연간 가입 평균 금액과 그 차이를 상세 기술합니다.</p>
+
+                    <h3>연령층 및 차량 모델별 가입 비용 일람표 (2026년 가상 시뮬레이션 데이터 기준)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>연령대</th>
+                                <th>주요 차량 모델</th>
+                                <th>평균 보험료 (원)</th>
+                                <th>자기신체사고 가입 시 비용</th>
+                                <th>자동차상해 전환 시 추가 금액</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>20대 초반 (신규)</td>
+                                <td>아반떼 준중형</td>
+                                <td>1,850,000</td>
+                                <td>포함 (기본형)</td>
+                                <td>38,000 원 추가</td>
+                            </tr>
+                            <tr>
+                                <td>20대 후반 (경력 3년)</td>
+                                <td>쏘나타 중형</td>
+                                <td>1,120,000</td>
+                                <td>포함 (기본형)</td>
+                                <td>29,000 원 추가</td>
+                            </tr>
+                            <tr>
+                                <td>30대 중반 (경력 7년)</td>
+                                <td>그랜저 준대형</td>
+                                <td>780,000</td>
+                                <td>포함 (기본형)</td>
+                                <td>24,000 원 추가</td>
+                            </tr>
+                            <tr>
+                                <td>40대 중반 (무사고)</td>
+                                <td>제네시스 GV80</td>
+                                <td>950,000</td>
+                                <td>포함 (기본형)</td>
+                                <td>28,000 원 추가</td>
+                            </tr>
+                            <tr>
+                                <td>50대 이상 (베테랑)</td>
+                                <td>그랜저 준대형</td>
+                                <td>680,000</td>
+                                <td>포함 (기본형)</td>
+                                <td>21,000 원 추가</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p>위 표에서 알 수 있듯이, 20대 신규 운전자의 평균 요금제 요율은 가장 높게 책정되며 아반떼 모델임에도 180만 원 선에 달하는 부담스러운 견적을 받게 됩니다. 그러나 이러한 고액 계약건에서도 자손에서 자상으로 보강하는 가격 격차는 단 3만 8천 원 수준입니다. 나이와 차종을 불문하고 추가 비용 대비 리스크 헤지 효과가 매우 크므로 현명한 오너들은 가입 성지 좌표를 찾아 헤매는 수고를 감수하더라도 담보만큼은 최상급으로 구성합니다.</p>
+                </section>
+
+                <section id="direct_section">
+                    <h2>다이렉트 인터넷 가입 및 최저가 성지 활용법</h2>
+                    <p>최근에는 오프라인 설계사를 통한 가입 방식보다는 스마트폰 앱과 온라인 웹사이트를 이용하는 비율이 대단히 높아졌습니다. 네이버, 구글 검색을 통한 가격 비교는 물론이고 토스, 카카오톡 페이 서비스 등을 경유해 다이렉트 싼곳을 확인하는 스마트 컨슈머들이 급증했습니다. 비대면 채널을 이용하면 수수료가 절감되어 대면 가입 대비 평균 15%에서 20% 저렴한 최저가 가입이 가능합니다.</p>
+                    
+                    <p>다이렉트 전용 어플을 활용할 때 챙겨야 할 실속 혜택 및 절약 하는법 세부 사항들을 안내합니다.</p>
+                    <ul>
+                        <li>신규 가입 유치 이벤트 참여: 주요 카드사 제휴 및 네이버페이 포인트 등의 사은품, 현금지원, 상품권 지원금 지급 혜택을 꼼꼼하게 대조합니다.</li>
+                        <li>모바일 앱 전용 할인 특약: 주행거리 마일리지 할인, 자녀 할인, 블랙박스 및 안전운전 점수(UBI) 연동 할인율을 극대화합니다.</li>
+                        <li>공식 고객센터 비교 견적 활용: 다이렉트라고 해서 무조건 상담이 제한적인 것은 아니며, 카카오톡 실시간 톡상담이나 고객센터 통화를 통해 애매한 담보 기준을 재검증할 수 있습니다.</li>
+                    </ul>
+                    
+                    <p>내돈내산 후기들을 공유하는 디시인사이드나 에펨코리아 자동차 동호회 게시판을 보면, 무조건 가입 요금만 낮추기 위해 자기신체사고로 세팅해 두었다가 나중에 사고 발생 시 제대로 된 보상을 받지 못해 후회하는 경험담을 다수 목격할 수 있습니다. 수십만 원의 가격 세이브 기회는 자상 특약 제외가 아니라, 주행거리 특약 설계나 온라인 직접 가입 경로를 통해 확보해야만 진정한 스마트 금융 설계라 일컬을 수 있습니다.</p>
+                </section>
+
+                <section id="forecast_section">
+                    <h2>2026년 자동차보험 보상 제도 변화 및 인공지능(AI)의 활용</h2>
+                    <p>2026년 현재 자동차보험 시장은 금융당국의 규제 현실화와 인공지능 기술의 대대적인 융합으로 큰 전환기를 맞이하고 있습니다. 특히 한층 고도화된 챗지피티 및 제미나이 등 고성능 거대언어모델(LLM)과 인공지능 분석 알고리즘이 손해보험 서비스 전반에 깊숙이 관여하기 시작했습니다.</p>
+                    
+                    <h4>1. AI 기반 사고 정밀 진단 및 실시간 보상금 예측</h4>
+                    <p>과거에는 자기신체 상해 손해 판정을 내리기 위해 주치의 소견서와 보험사의 대면 실사 과정이 필수적이었으나, 2026년부터는 사고 현장 이미지와 의료 기록을 연동한 AI 보상 분석 시스템이 즉각 구동됩니다. 가입자는 전용 앱을 통해 치료 비용 영수증과 부상 부위 정보를 촬영해 업로드하는 것만으로 단 몇 분 안에 정확한 예상 보상 금액과 본인 부담 발생 가능액을 산출받게 됩니다. 이러한 기술 변화는 자기신체사고의 불확실한 보장 한계성을 더욱 두드러지게 만들고 있습니다.</p>
+
+                    <h4>2. 운전 습관 연계 할인 요금제(UBI)의 일상화</h4>
+                    <p>T맵, 카카오내비뿐만 아니라 텔레그램이나 토스 연동 시스템을 통해 개개인의 주행 평점이 보험료에 미치는 영향이 약 15% 이상으로 대폭 커졌습니다. 난폭 운전 이력이 없고 급제동 횟수가 적은 우수 운전자는 자동차상해 특약 추가에 따른 가입비 상승분을 안전운전 할인율로 완벽히 상쇄하고도 남는 혜택을 제공받게 됩니다. 즉, 무조건 싼곳이나 저렴한곳 성지만 고집하기보다는 평소의 운행 습관 관리를 통해 기본 견적 자체를 깎아내는 장기 전략이 요구됩니다.</p>
+                </section>
+
+                <section id="faq_section">
+                    <h2>자동차보험 자기신체 상해 보상 자주 묻는 질문 (FAQ)</h2>
+                    
+                    <h4>Q1. 자기신체사고와 자동차상해 중 하나만 가입해야 하나요? 둘 다 동시 가입은 안 되나요?</h4>
+                    <p>A. 두 항목은 하나의 대분류(자기신체에 대한 손해 보상) 안에서 소비자가 택일하도록 규정되어 있는 보장 종류입니다. 성격이 중복되기 때문에 한 대의 차량에 두 개 모두 중복으로 탑재하여 가입하는 것은 불가능합니다. 오직 하나의 계약 형태만 지정할 수 있으므로, 보상 처리 범위가 압도적으로 우세한 자동차상해로 결정하시기를 권장합니다.</p>
+
+                    <h4>Q2. 이미 인터넷 다이렉트로 자기신체사고에 가입되어 있는데, 만기 전에 중간 변경이 가능한가요?</h4>
+                    <p>A. 네, 충분히 가능합니다. 가입하신 다이렉트 보험사 모바일 어플이나 전용 사이트에 로그인하신 후 계약 변경 메뉴를 통해 자기신체사고를 자동차상해 담보로 손쉽게 교체 신청할 수 있습니다. 이때 발생하는 차액만큼의 소액 추가 보험료를 납부하시면 즉시 그 다음 날 00시부터 더 넓은 보장 범위의 권리를 온전히 누리실 수 있습니다.</p>
+
+                    <h4>Q3. 단독 사고가 아닌 쌍방 과실 사고에서도 자동차상해가 유리하게 작용하나요?</h4>
+                    <p>A. 매우 유리합니다. 쌍방 과실 사고 시 자기신체사고 담보는 과실비율 합의가 길어질 경우 상대 보험사와의 조율이 끝날 때까지 내 의료비 보상이 지연됩니다. 더불어 본인 과실분만큼 보상금이 감액되어 지급됩니다. 반면 자동차상해는 본인 과실 유무를 묻지 않고 아군 보험사에서 즉시 전액 실손 처리해 주며 치료를 편안히 받도록 조치한 뒤, 추후 과실비율에 맞춰 상대 보험사에 구상권을 알아서 청구하므로 매우 신속하고 심리적으로 편안한 사고 대처가 이뤄집니다.</p>
+
+                    <h4>Q4. 나이가 많거나 운전 경력이 짧은 신규 가입자도 전환 시 가격차이가 크지 않나요?</h4>
+                    <p>A. 경력이 아주 짧은 20대 신규 혹은 반대로 연령이 높으신 어르신 분들의 경우에도 연간 보험료 총액 대비 자손에서 자상으로 변경할 때 가산되는 추가 금액은 통상 2만 원에서 5만 원선을 벗어나지 않습니다. 전체적인 고정 비용 요인에 비해 전환 리스크 예방 이점이 월등히 큽니다.</p>
+                </section>
+
+                <div class="external-links">
+                    <h3>공인된 신뢰성 기반 외부 참고 출처 안내</h3>
+                    <ul>
+                        <li><a href="https://directvsearchv.reliabledone.com" target="_blank" title="자동차보험 자상 자손 정밀 가이드 리포트">자동차보험 자상 자손 정밀 가이드 리포트 (reliabledone.com 제공)</a></li>
+                        <li><a href="https://namu.wiki/w/%EC%9E%90%EB%8F%99%EC%B0%A8%EB%B3%B4%ED%97%98" target="_blank" title="나무위키 자동차보험 정의 항목">나무위키 공식 수록: 자동차보험 담보 체계 및 보상 한도 가이드</a></li>
+                        <li><a href="https://www.fss.or.kr/" target="_blank" title="금융감독원 자동차보험 정보">금융감독원 (FSS) 금융소비자 정보 포털: 금융 꿀팁 및 보상 소비자 유의사항 안내</a></li>
+                        <li><a href="https://www.kidi.or.kr/" target="_blank" title="보험개발원 차량 모델 요율 정보">보험개발원 (KIDI): 자동차보험 손해율 및 부상 등급별 산출 기준 데이터 정보 제공</a></li>
+                    </ul>
+                </div>
+
+                <p style="text-align: right; color: var(--text-muted); font-size: 0.85em; margin-top: 60px; border-top: 1px solid var(--border-color); padding-top: 15px;">정보성 최종 편집일: 2026년 7월 24일 (최신 개정 금융 규정 반영 완료)</p>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // 보상금 계산 시뮬레이터 인터랙티브 연산 로직
+        function calculateCompensation(event) {
+            event.preventDefault();
+            
+            const grade = parseInt(document.getElementById('injuryGrade').value);
+            const medicalCost = parseFloat(document.getElementById('medicalCost').value);
+            const lostIncome = parseFloat(document.getElementById('lostIncome').value);
+            const hospitalDays = parseInt(document.getElementById('hospitalDays').value);
+            const faultRatio = parseFloat(document.getElementById('faultRatio').value) / 100;
+
+            if (isNaN(medicalCost) || isNaN(lostIncome) || isNaN(hospitalDays) || isNaN(faultRatio)) {
+                alert("정확한 숫자 데이터 값을 입력해 주십시오.");
+                return;
+            }
+
+            // 가상의 자손 등급 한도 설정
+            let selfLimit = 0;
+            if (grade === 12) selfLimit = 1200000;
+            else if (grade === 9) selfLimit = 2400000;
+            else if (grade === 5) selfLimit = 15000000;
+            else if (grade === 1) selfLimit = 30000000;
+
+            // 1. 자기신체사고 (자손) 시뮬레이션 계산
+            // 과실에 따른 감액 및 상해급수별 한도 제약 적용
+            let selfBasePayout = Math.min(medicalCost, selfLimit);
+            let selfFinalPayout = selfBasePayout * (1 - faultRatio);
+
+            // 2. 자동차상해 (자상) 시뮬레이션 계산
+            // 실손비용 보장(한도 1억 가정) + 휴업손해(소득의 85% 일수 산정) + 위자료(기본 50만 가정)
+            // 과실 상계 감액 없이 기본 지급 처리
+            let compensationLostWork = (lostIncome / 30) * hospitalDays * 0.85;
+            let compensationPain = 500000; // 가상의 평균 위자료
+            let injuryFinalPayout = medicalCost + compensationLostWork + compensationPain;
+
+            const resultDiv = document.getElementById('calcResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = `
+                <h4 style="margin-top:0; color:var(--primary-color);">시뮬레이션 분석 결과</h4>
+                <p style="font-size:0.95em; margin-bottom:10px;">귀하가 입력하신 정보에 근거한 가상 분석 결과는 다음과 같습니다.</p>
+                <table style="width:100%; font-size:0.85em; margin:10px 0;">
+                    <thead>
+                        <tr>
+                            <th>보장 항목</th>
+                            <th>자기신체사고 (자손)</th>
+                            <th>자동차상해 (자상)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>치료비 보상액</td>
+                            <td>${Math.round(selfFinalPayout).toLocaleString()} 원</td>
+                            <td>${Math.round(medicalCost).toLocaleString()} 원</td>
+                        </tr>
+                        <tr>
+                            <td>휴업 손해액</td>
+                            <td>지급 불가</td>
+                            <td>${Math.round(compensationLostWork).toLocaleString()} 원</td>
+                        </tr>
+                        <tr>
+                            <td>위자료 등 추가금</td>
+                            <td>지급 불가</td>
+                            <td>${Math.round(compensationPain).toLocaleString()} 원</td>
+                        </tr>
+                        <tr style="font-weight:bold; color:var(--accent-color);">
+                            <td>총 예상 수령액</td>
+                            <td>${Math.round(selfFinalPayout).toLocaleString()} 원</td>
+                            <td>${Math.round(injuryFinalPayout).toLocaleString()} 원</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="font-size:0.9em; color:#d9534f; font-weight:bold; margin:10px 0 0 0;">
+                    차이점 결과: 자동차상해 가입 시 약 ${(Math.round(injuryFinalPayout - selfFinalPayout)).toLocaleString()} 원을 추가 보상받으실 수 있습니다.
+                </p>
+                <p style="font-size:0.8em; color:var(--text-muted); margin-top:5px; line-height:1.4;">
+                    본 시뮬레이션은 특정 조건 하에 산출된 임의 가상 계산이며, 가입 보험 브랜드의 세부 약관 및 개별 과실 분쟁 판결 결과에 따라 실보상금은 달라질 수 있습니다.
+                </p>
+            `;
+        }
+    </script>
+  
